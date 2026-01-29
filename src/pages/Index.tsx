@@ -41,25 +41,25 @@ const Index = () => {
       {/* Content */}
       <div className="relative z-10">
         {/* Header with navigation */}
-        <header className="pt-6 pb-8">
+        <header className="pt-6 pb-8 relative z-20">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-end">
+            <div className="flex items-center justify-center sm:justify-end">
               <motion.nav
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 className="flex items-center gap-1"
               >
-{navLinks.map((link) => (
-<NavLink
-  key={link.href}
-  to={link.href}
-  className="px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors duration-200 ease-out hover:text-foreground"
-  activeClassName="text-foreground"
->
-  {link.label}
-</NavLink>
-))}
+                {navLinks.map((link) => (
+                  <NavLink
+                    key={link.href}
+                    to={link.href}
+                    className="px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors duration-200 ease-out hover:text-foreground"
+                    activeClassName="text-foreground"
+                  >
+                    {link.label}
+                  </NavLink>
+                ))}
               </motion.nav>
             </div>
           </div>
@@ -68,33 +68,31 @@ const Index = () => {
         {/* Hero */}
         <main className="pb-20">
           <div className="container mx-auto px-4">
-<motion.div
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.5, delay: 0.1 }}
-  className="text-center max-w-xl mx-auto pt-4 pb-8"
->
-  <img 
-    src={kortlinkLogo} 
-    alt="Kortlink" 
-    className="w-40 h-40 mx-auto mb-0 -mt-20"  // lidt luft under logo
-    style={{ background: 'transparent' }}
-  />
-  <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">
-    Kortlink.dk
-  </h1>
-  <p className="text-muted-foreground text-lg mb-1">
-    Lange links er grimmere end korte links.
-  </p>
-  <p className="text-muted-foreground mb-1">
-    Lange links kan ikke bruges i aviser og magasiner.
-  </p>
-  <p className="text-muted-foreground">
-    Lange links "knækker" over, når du bruger dem i mails.
-  </p>
-</motion.div>
-
-
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-center max-w-xl mx-auto pt-4 pb-8 relative z-10"
+            >
+              <img
+                src={kortlinkLogo}
+                alt="Kortlink"
+                className="w-40 h-40 mx-auto mb-0 -mt-8 sm:-mt-20"
+                style={{ background: "transparent" }}
+              />
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-2">
+                Kortlink.dk
+              </h1>
+              <p className="text-muted-foreground text-lg mb-1">
+                Lange links er grimmere end korte links.
+              </p>
+              <p className="text-muted-foreground mb-1">
+                Lange links kan ikke bruges i aviser og magasiner.
+              </p>
+              <p className="text-muted-foreground">
+                Lange links "knækker" over, når du bruger dem i mails.
+              </p>
+            </motion.div>
 
             {/* URL Shortener */}
             <UrlShortener />
