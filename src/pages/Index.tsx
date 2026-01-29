@@ -3,7 +3,7 @@ import { Zap, Shield, Infinity } from "lucide-react";
 import { UrlShortener } from "@/components/UrlShortener";
 import { FeatureCard } from "@/components/FeatureCard";
 import { NavLink } from "@/components/NavLink";
-import kortlinkLogo from "@/assets/kortlink-logo.png";
+import kortlinkLogo from "@/assets/kortlink-logo-black.png";
 
 const features = [
   {
