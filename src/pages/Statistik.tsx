@@ -20,24 +20,17 @@ const Statistik = () => {
   const [displayStats, setDisplayStats] = useState(stats.map(() => 0));
 
   useEffect(() => {
-    const duration = 2000; // længere tid for mere langsom slutning
+    const duration = 2000;
     const start = performance.now();
-
-    // Ease-out quartic: starter hurtigt og bremser meget til slut
     const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
     const animate = (time: number) => {
       const elapsed = time - start;
       const progress = Math.min(elapsed / duration, 1);
       const easedProgress = easeOutQuart(progress);
+      setDisplayStats(stats.map((stat) => Math.floor(stat.value * easedProgress)));
 
-      setDisplayStats(
-        stats.map((stat) => Math.floor(stat.value * easedProgress))
-      );
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
+      if (progress < 1) requestAnimationFrame(animate);
     };
 
     requestAnimationFrame(animate);
@@ -55,12 +48,12 @@ const Statistik = () => {
         {/* Header */}
         <header className="pt-6 pb-8">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-end">
+            <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2">
               <motion.nav
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="flex items-center gap-1"
+                className="flex flex-wrap items-center gap-1"
               >
                 {navLinks.map((link) => (
                   <NavLink
@@ -86,7 +79,7 @@ const Statistik = () => {
               transition={{ duration: 0.5 }}
               className="max-w-2xl mx-auto"
             >
-              <h1 className="text-3xl font-bold tracking-tight mb-6">
+              <h1 className="text-3xl font-bold tracking-tight mb-6 text-center sm:text-left">
                 Statistik
               </h1>
 
@@ -110,7 +103,7 @@ const Statistik = () => {
                         hover:bg-secondary/60
                       "
                     >
-                      <p className="text-2xl font-semibold">
+                      <p className="text-2xl font-semibold text-center sm:text-left">
                         {displayStats[i].toLocaleString()}
                         {stat.suffix && (
                           <span className="text-base font-normal text-muted-foreground ml-1">
@@ -118,7 +111,7 @@ const Statistik = () => {
                           </span>
                         )}
                       </p>
-                      <p className="text-sm text-muted-foreground mt-1">
+                      <p className="text-sm text-muted-foreground mt-1 text-center sm:text-left">
                         {stat.label}
                       </p>
                     </motion.div>
@@ -132,9 +125,9 @@ const Statistik = () => {
         {/* Footer */}
         <footer className="py-8 border-t border-border/50">
           <div className="container mx-auto px-4">
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3">
               <img src={kortlinkLogo} alt="Kortlink" className="w-6 h-6" />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground text-center sm:text-left">
                 Kortlink.dk · Fritidsprojekt af Morten Juul og Steven Snedker
               </p>
             </div>
