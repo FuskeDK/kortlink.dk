@@ -9,14 +9,23 @@ const NotFound = () => {
   useEffect(() => {
     const path = location.pathname.slice(1); // Remove leading /
 
-    // Check if it looks like a short code (6 characters, alphanumeric)
+    let shortCode = null;
+
+    // Check if it's a direct short code
     if (/^[a-zA-Z0-9]{6}$/.test(path)) {
+      shortCode = path;
+    } else if (/^api\/([a-zA-Z0-9]{6})$/.test(path)) {
+      // Handle /api/shortCode format
+      shortCode = path.match(/^api\/([a-zA-Z0-9]{6})$/)[1];
+    }
+
+    if (shortCode) {
       // Try to fetch the link
       const fetchLink = async () => {
         const { data, error } = await supabase
           .from("links")
           .select("original_url, clicks")
-          .eq("short_code", path)
+          .eq("short_code", shortCode)
           .single();
 
         if (data && !error) {
@@ -24,12 +33,12 @@ const NotFound = () => {
           await supabase
             .from("links")
             .update({ clicks: data.clicks + 1 })
-            .eq("short_code", path);
+            .eq("short_code", shortCode);
 
           // Redirect to original URL
           window.location.href = data.original_url;
         } else {
-          console.error("404 Error: Short code not found:", path);
+          console.error("404 Error: Short code not found:", shortCode);
         }
       };
 
