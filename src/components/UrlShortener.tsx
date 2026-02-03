@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link2, Copy, Check, ExternalLink, ArrowRight, Trash2, History, Scissors, X, QrCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -65,23 +66,46 @@ const handleShorten = async () => {
   }
 
   setIsLoading(true);
-  await new Promise(resolve => setTimeout(resolve, 600));
 
+  // Lav en unik kort kode
   const shortCode = Math.random().toString(36).substring(2, 8);
-  const newLink: LinkItem = {
-    id: Date.now().toString(),
-    shortCode,
-    originalUrl: url,
-    createdAt: new Date().toLocaleDateString("da-DK"),
-  };
 
-  setLinks(prev => [newLink, ...prev]);
-  setUrl("");
+  // Get current user
+  const { data: { user }, error: userError } = await supabase.auth.getUser();
+  if (userError || !user) {
+    alert("Du skal være logget ind for at oprette links.");
+    setIsLoading(false);
+    return;
+  }
+
+  // Gem direkte i Supabase
+  const { data, error } = await supabase
+    .from("links")
+    .insert([{ short_code: shortCode, original_url: url, user_id: user.id }])
+    .select(); // .select() returnerer det indsatte data
+
+  if (error) {
+    console.error("Fejl ved oprettelse:", error.message);
+    alert("Kunne ikke gemme linket. Prøv igen.");
+  } else {
+    // Opdater lokal state, så historik stadig vises i browseren
+    setLinks(prev => [
+      { 
+        id: data[0].id, 
+        shortCode, 
+        originalUrl: url, 
+        createdAt: new Date().toLocaleDateString("da-DK") 
+      }, 
+      ...prev
+    ]);
+    setUrl(""); // nulstil input
+  }
+
   setIsLoading(false);
 };
 
   const handleCopy = async (shortCode: string) => {
-    await navigator.clipboard.writeText(`https://kortlinkdk.vercel.app/${shortCode}`);
+    await navigator.clipboard.writeText(`https://kortlinkdk.vercel.app/api/${shortCode}`);
     setCopied(shortCode);
     setTimeout(() => setCopied(null), 2000);
   };
@@ -106,7 +130,7 @@ const handleShowQr = (shortCode: string) => {
   };
 
 const getQrCodeUrl = (shortCode: string) => {
-  const url = `https://kortlinkdk.vercel.app/${shortCode}`; // Brug det specifikke kortlink
+  const url = `https://kortlinkdk.vercel.app/api/${shortCode}`; // Brug det specifikke kortlink
   return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
 };
 
@@ -240,13 +264,13 @@ const getQrCodeUrl = (shortCode: string) => {
         <div>
           <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Kort Link</p>
           <a
-            href={`https://kortlinkdk.vercel.app/${link.shortCode}`}
+            href={`https://kortlinkdk.vercel.app/api/${link.shortCode}`}
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium text-sm truncate text-muted-foreground block cursor-pointer"
-            title={`Åbn https://kortlinkdk.vercel.app/${link.shortCode}`}
+            title={`Åbn https://kortlinkdk.vercel.app/api/${link.shortCode}`}
           >
-            https://kortlinkdk.vercel.app/{link.shortCode}
+            https://kortlinkdk.vercel.app/api/{link.shortCode}
           </a>
         </div>
         <div>
@@ -285,7 +309,7 @@ const getQrCodeUrl = (shortCode: string) => {
           asChild
           title="Åbn"
         >
-          <a href={`https://kortlinkdk.vercel.app/${link.shortCode}`} target="_blank" rel="noopener noreferrer">
+          <a href={`https://kortlinkdk.vercel.app/api/${link.shortCode}`} target="_blank" rel="noopener noreferrer">
             <ExternalLink className="w-4 h-4" />
           </a>
         </Button>
@@ -333,7 +357,7 @@ const getQrCodeUrl = (shortCode: string) => {
             className="w-48 h-48 rounded-lg"
           />
           <p className="text-sm text-muted-foreground">
-            https://kortlinkdk.vercel.app/{selectedQrCode}
+            https://kortlinkdk.vercel.app/api/{selectedQrCode}
           </p>
         </>
       )}

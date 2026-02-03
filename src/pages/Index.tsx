@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Zap, Shield, Infinity } from "lucide-react";
+import { Zap, Shield, Infinity as InfiniteIcon } from "lucide-react";
 import { UrlShortener } from "@/components/UrlShortener";
 import { FeatureCard } from "@/components/FeatureCard";
 import { NavLink } from "@/components/NavLink";
@@ -17,7 +17,7 @@ const features = [
     description: "De korte links vil bestå så længe tjenesten kører",
   },
   {
-    icon: Infinity,
+    icon: InfiniteIcon,
     title: "Grænseløst",
     description: "Der er ingen grænse for antal links",
   },
