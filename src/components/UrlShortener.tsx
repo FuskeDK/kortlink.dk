@@ -97,7 +97,7 @@ const handleShorten = async () => {
 };
 
   const handleCopy = async (shortCode: string) => {
-    await navigator.clipboard.writeText(`https://kortlinkdk.vercel.app/api/${shortCode}`);
+    await navigator.clipboard.writeText(`${window.location.origin}/${shortCode}`);
     setCopied(shortCode);
     setTimeout(() => setCopied(null), 2000);
   };
@@ -122,7 +122,7 @@ const handleShowQr = (shortCode: string) => {
   };
 
 const getQrCodeUrl = (shortCode: string) => {
-  const url = `https://kortlinkdk.vercel.app/api/${shortCode}`; // Brug det specifikke kortlink
+  const url = `${window.location.origin}/${shortCode}`; // Brug det specifikke kortlink
   return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
 };
 
@@ -256,13 +256,13 @@ const getQrCodeUrl = (shortCode: string) => {
         <div>
           <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Kort Link</p>
           <a
-            href={`https://kortlinkdk.vercel.app/api/${link.shortCode}`}
+            href={`${window.location.origin}/${link.shortCode}`}
             target="_blank"
             rel="noopener noreferrer"
             className="font-medium text-sm truncate text-muted-foreground block cursor-pointer"
-            title={`Åbn https://kortlinkdk.vercel.app/api/${link.shortCode}`}
+            title={`Åbn ${window.location.origin}/${link.shortCode}`}
           >
-            https://kortlinkdk.vercel.app/api/{link.shortCode}
+            {window.location.origin}/{link.shortCode}
           </a>
         </div>
         <div>
@@ -301,7 +301,7 @@ const getQrCodeUrl = (shortCode: string) => {
           asChild
           title="Åbn"
         >
-          <a href={`https://kortlinkdk.vercel.app/api/${link.shortCode}`} target="_blank" rel="noopener noreferrer">
+          <a href={`${window.location.origin}/${link.shortCode}`} target="_blank" rel="noopener noreferrer">
             <ExternalLink className="w-4 h-4" />
           </a>
         </Button>
