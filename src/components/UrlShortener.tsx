@@ -73,7 +73,7 @@ const handleShorten = async () => {
   // Gem direkte i Supabase
   const { data, error } = await supabase
     .from("links")
-    .insert([{ short_code: shortCode, original_url: url }])
+    .insert([{ short_code: shortCode, original_url: url, created_at: new Date().toISOString() }])
     .select(); // .select() returnerer det indsatte data
 
   if (error) {
