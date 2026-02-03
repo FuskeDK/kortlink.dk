@@ -225,92 +225,92 @@ const getQrCodeUrl = (shortCode: string) => {
 
             <div className="space-y-3">
               <AnimatePresence mode="popLayout">
-                {links.map((link) => (
-                  <motion.div
-                    key={link.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95, x: -20 }}
-                    transition={{ duration: 0.2 }}
-                    className="bg-secondary/50 rounded-xl p-4 group"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-<div className="min-w-0 flex-1 space-y-2">
-  <div>
-    <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Kort Link</p>
-<a
-  href={`https://kortlinkdk.vercel.app/${link.shortCode}`}
-  target="_blank"
-  rel="noopener noreferrer"
-  className="font-medium text-sm truncate text-muted-foreground block cursor-pointer"
-  title={`Åbn https://kortlinkdk.vercel.app/${link.shortCode}`}
->
-  https://kortlinkdk.vercel.app/{link.shortCode}
-</a>
-  </div>
-  <div>
-    <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Original</p>
-    <a
-      href={link.originalUrl.startsWith("http") ? link.originalUrl : `https://${link.originalUrl}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-sm text-muted-foreground truncate block cursor-pointer"
-      title={`Åbn ${link.originalUrl}`}
-    >
-      {link.originalUrl}
-    </a>
-  </div>
-</div>
-                      
-                      <div className="flex flex-col sm:flex-row items-center gap-1">
-                        <span className="text-xs text-muted-foreground hidden sm:block mr-2">{link.createdAt}</span>
-                        <Button
-                          onClick={() => handleCopy(link.shortCode)}
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-lg"
-                          title="Kopier"
-                        >
-                          {copied === link.shortCode ? (
-                            <Check className="w-4 h-4 text-success" />
-                          ) : (
-                            <Copy className="w-4 h-4" />
-                          )}
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-lg"
-                          asChild
-                          title="Åbn"
-                        >
-                          <a href={`https://kortlink.dk/${link.shortCode}`} target="_blank" rel="noopener noreferrer">
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        </Button>
-                        <Button
-                          onClick={() => handleShowQr(link.shortCode)}
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-lg"
-                          title="QR-kode"
-                        >
-                          <QrCode className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          onClick={() => handleDelete(link.id)}
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                          title="Slet"
-                        >
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+{links.map((link) => (
+  <motion.div
+    key={link.id}
+    layout
+    initial={{ opacity: 0, scale: 0.95 }}
+    animate={{ opacity: 1, scale: 1 }}
+    exit={{ opacity: 0, scale: 0.95, x: -20 }}
+    transition={{ duration: 0.2 }}
+    className="bg-secondary/50 rounded-xl p-4 group"
+  >
+    <div className="flex items-start justify-between gap-3">
+      <div className="min-w-0 flex-1 space-y-2">
+        <div>
+          <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Kort Link</p>
+          <a
+            href={`https://kortlinkdk.vercel.app/${link.shortCode}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-sm truncate text-muted-foreground block cursor-pointer"
+            title={`Åbn https://kortlinkdk.vercel.app/${link.shortCode}`}
+          >
+            https://kortlinkdk.vercel.app/{link.shortCode}
+          </a>
+        </div>
+        <div>
+          <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Original</p>
+          <a
+            href={link.originalUrl.startsWith("http") ? link.originalUrl : `https://${link.originalUrl}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-muted-foreground truncate block cursor-pointer"
+            title={`Åbn ${link.originalUrl}`}
+          >
+            {link.originalUrl}
+          </a>
+        </div>
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-center gap-1">
+        <span className="text-xs text-muted-foreground hidden sm:block mr-2">{link.createdAt}</span>
+        <Button
+          onClick={() => handleCopy(link.shortCode)}
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-lg"
+          title="Kopier"
+        >
+          {copied === link.shortCode ? (
+            <Check className="w-4 h-4 text-success" />
+          ) : (
+            <Copy className="w-4 h-4" />
+          )}
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-lg"
+          asChild
+          title="Åbn"
+        >
+          <a href={`https://kortlinkdk.vercel.app/${link.shortCode}`} target="_blank" rel="noopener noreferrer">
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </Button>
+        <Button
+          onClick={() => handleShowQr(link.shortCode)}
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-lg"
+          title="QR-kode"
+        >
+          <QrCode className="w-4 h-4" />
+        </Button>
+        <Button
+          onClick={() => handleDelete(link.id)}
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+          title="Slet"
+        >
+          <X className="w-4 h-4" />
+        </Button>
+      </div>
+    </div>
+  </motion.div>
+))}
               </AnimatePresence>
             </div>
           </motion.div>
