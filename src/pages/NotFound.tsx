@@ -1,11 +1,42 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const NotFound = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    const path = location.pathname.slice(1); // Remove leading /
+
+    // Check if it looks like a short code (6 characters, alphanumeric)
+    if (/^[a-zA-Z0-9]{6}$/.test(path)) {
+      // Try to fetch the link
+      const fetchLink = async () => {
+        const { data, error } = await supabase
+          .from("links")
+          .select("original_url, clicks")
+          .eq("short_code", path)
+          .single();
+
+        if (data && !error) {
+          // Increment click count
+          await supabase
+            .from("links")
+            .update({ clicks: data.clicks + 1 })
+            .eq("short_code", path);
+
+          // Redirect to original URL
+          window.location.href = data.original_url;
+        } else {
+          console.error("404 Error: Short code not found:", path);
+        }
+      };
+
+      fetchLink();
+    } else {
+      console.error("404 Error: User attempted to access non-existent route:", location.pathname);
+    }
   }, [location.pathname]);
 
   return (

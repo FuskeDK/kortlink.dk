@@ -70,18 +70,10 @@ const handleShorten = async () => {
   // Lav en unik kort kode
   const shortCode = Math.random().toString(36).substring(2, 8);
 
-  // Get current user
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError || !user) {
-    alert("Du skal være logget ind for at oprette links.");
-    setIsLoading(false);
-    return;
-  }
-
   // Gem direkte i Supabase
   const { data, error } = await supabase
     .from("links")
-    .insert([{ short_code: shortCode, original_url: url, user_id: user.id }])
+    .insert([{ short_code: shortCode, original_url: url }])
     .select(); // .select() returnerer det indsatte data
 
   if (error) {
