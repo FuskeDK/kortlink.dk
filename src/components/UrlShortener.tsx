@@ -81,7 +81,7 @@ const handleShorten = async () => {
 };
 
   const handleCopy = async (shortCode: string) => {
-    await navigator.clipboard.writeText(`https://kortlink.dk/${shortCode}`);
+    await navigator.clipboard.writeText(`https://kortlinkdk.vercel.app/${shortCode}`);
     setCopied(shortCode);
     setTimeout(() => setCopied(null), 2000);
   };
@@ -94,10 +94,10 @@ const handleShorten = async () => {
     setLinks([]);
   };
 
-  const handleShowQr = (shortCode: string) => {
-    setSelectedQrCode(shortCode);
-    setQrDialogOpen(true);
-  };
+const handleShowQr = (shortCode: string) => {
+  setSelectedQrCode(shortCode); 
+  setQrDialogOpen(true); 
+};
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
@@ -105,10 +105,10 @@ const handleShorten = async () => {
     }
   };
 
-  const getQrCodeUrl = (shortCode: string) => {
-    const url = `https://kortlink.dk/${shortCode}`;
-    return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
-  };
+const getQrCodeUrl = (shortCode: string) => {
+  const url = `https://kortlinkdk.vercel.app/${shortCode}`; // Brug det specifikke kortlink
+  return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`;
+};
 
   return (
     <div className="w-full max-w-2xl mx-auto space-y-6">
@@ -239,15 +239,15 @@ const handleShorten = async () => {
 <div className="min-w-0 flex-1 space-y-2">
   <div>
     <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Kort Link</p>
-    <a
-      href={`https://kortlink.dk/${link.shortCode}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="font-medium text-sm truncate text-muted-foreground block cursor-pointer"
-      title={`Åbn https://kortlink.dk/${link.shortCode}`}
-    >
-      https://kortlink.dk/{link.shortCode}
-    </a>
+<a
+  href={`https://kortlinkdk.vercel.app/${link.shortCode}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="font-medium text-sm truncate text-muted-foreground block cursor-pointer"
+  title={`Åbn https://kortlinkdk.vercel.app/${link.shortCode}`}
+>
+  https://kortlinkdk.vercel.app/{link.shortCode}
+</a>
   </div>
   <div>
     <p className="text-xs text-muted-foreground tracking-wide mb-0.5">Original</p>
@@ -326,13 +326,14 @@ const handleShorten = async () => {
     <div className="flex flex-col items-center gap-4 py-4">
       {selectedQrCode && (
         <>
+          {/* Generer den unikke QR-kode baseret på shortCode */}
           <img 
             src={getQrCodeUrl(selectedQrCode)} 
             alt="QR Code" 
             className="w-48 h-48 rounded-lg"
           />
           <p className="text-sm text-muted-foreground">
-            https://kortlink.dk/{selectedQrCode}
+            https://kortlinkdk.vercel.app/{selectedQrCode}
           </p>
         </>
       )}
