@@ -99,12 +99,9 @@ const Index = () => {
 
             {/* Features */}
             <motion.div
-            {/* URL Shortener */
-            <UrlShorteners />
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-            {/* Features */
               className="mt-12 max-w-2xl mx-auto"
             >
               <div className="grid sm:grid-cols-3 gap-6">
@@ -121,16 +118,12 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-center gap-3">
               <img src={kortlinkLogo} alt="Kortlink" className="w-6 h-6" />
-        {/* Footer */
               <p className="text-sm text-muted-foreground">
                 Kortlink.dk · Fritidsprojekt af Morten Juul og Steven Snedker
               </p>
             </div>
           </div>
         </footer>
-                Kortlink.dk
-
- Fritidsprojekt af Morten Juul og Steven Snedker
       </div>
     </div>
   );
